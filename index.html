@@ -1,4 +1,3 @@
-<!--
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,52 +32,3 @@
 </body>
 </html>
 
--->
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Opening Diagnosis...</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    function openApp() {
-      const notionLink = "https://www.notion.so/hypertension-2ec9b2bff05c80fbb443e34595831825?showMoveTo=true&saveParent=true";
-      const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-      const isAndroid = /Android/.test(navigator.userAgent);
-      
-      let appOpened = false;
-      
-      // Listen for page visibility changes (app opening will hide the page)
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          appOpened = true;
-        }
-      });
-      
-      // Listen for page blur (another indicator app opened)
-      window.addEventListener('blur', () => {
-        appOpened = true;
-      });
-      
-      // Try to open the app
-      window.location.href = notionLink;
-      
-      // After 2.5 seconds, check if app opened
-      setTimeout(() => {
-        if (!appOpened) {
-          // App didn't open, redirect to store
-          if (isIOS) {
-            window.location.href = "https://apps.apple.com/us/app/notion-notes-docs-tasks/id1232780281";
-          } else if (isAndroid) {
-            window.location.href = "https://play.google.com/store/apps/details?id=notion.id";
-          }
-        }
-      }, 2500);
-    }
-  </script>
-</head>
-<body onload="openApp()">
-  <h2>Opening diagnosis in app...</h2>
-  <p>If nothing happens, <a href="https://www.notion.so/hypertension-2ec9b2bff05c80fbb443e34595831825">tap here</a>.</p>
-</body>
-</html>
