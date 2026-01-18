@@ -1,3 +1,5 @@
+<!--
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +31,52 @@
 <body onload="openApp()">
   <h2>Opening diagnosis in app...</h2>
   <p>If nothing happens, <a href="https://www.notion.so/neel/Disease-Type-2-Diabetes-abc123456789">tap here</a>.</p>
+</body>
+</html>
+
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Opening Diagnosis...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 15px 30px;
+      margin: 10px;
+      background: #000;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Open Diagnosis</h2>
+  <p>Choose where to open:</p>
+  
+  <a href="https://www.notion.so/hypertension-2ec9b2bff05c80fbb443e34595831825" class="button">
+    Open in Notion
+  </a>
+  <br>
+  <a href="https://apps.apple.com/us/app/notion-notes-docs-tasks/id1232780281" class="button">
+    Get Notion App
+  </a>
+  
+  <script>
+    // Auto-attempt on load
+    window.onload = () => {
+      window.location.href = "https://www.notion.so/hypertension-2ec9b2bff05c80fbb443e34595831825";
+    };
+  </script>
 </body>
 </html>
 
