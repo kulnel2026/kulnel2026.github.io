@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health App - Open in app or download</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      margin: 0;
+      padding: 24px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f5;
+      color: #333;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    h1 { margin: 0 0 8px; font-size: 1.5rem; }
+    .subtitle { color: #666; margin-bottom: 24px; font-size: 0.95rem; }
+    .open-btn {
+      display: inline-block;
+      background: #6750a4;
+      color: white;
+      padding: 14px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 24px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .open-btn:hover { background: #5a4590; }
+    .divider {
+      margin: 20px 0;
+      border: none;
+      border-top: 1px solid #eee;
+    }
+    .store-section { margin-top: 8px; }
+    .store-section p { color: #666; font-size: 0.9rem; margin-bottom: 16px; }
+    .store-links { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .store-links a {
+      display: inline-block;
+      padding: 12px 20px;
+      background: #333;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      width: 100%;
+      max-width: 240px;
+      text-align: center;
+    }
+    .store-links a:hover { background: #555; }
+    .store-links a.ios { background: #000; }
+    .store-links a.android { background: #3ddc84; color: #000; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Health App</h1>
+    <p class="subtitle" id="subtitle">Opening diagnosis...</p>
+
+    <a href="#" class="open-btn" id="openAppBtn">Open in app</a>
+
+    <hr class="divider hidden" id="divider">
+    <div class="store-section hidden" id="storeSection">
+      <p>Don't have the app? Download it here:</p>
+      <div class="store-links">
+        <a href="#" id="iosLink" class="ios" target="_blank" rel="noopener">Download on the App Store</a>
+        <a href="#" id="androidLink" class="android" target="_blank" rel="noopener">Get it on Google Play</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Replace these with your real store URLs after publishing
+      var APP_STORE_URL = 'https://apps.apple.com/app/idXXXXXXXXX';  // Replace XXXXX with your app's Apple ID
+      var PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.example.ebix_flutter_project';
+
+      var APP_SCHEME = 'myhealthapp';
+      var DELAY_MS = 2000;
+
+      function getSlugFromUrl() {
+        var hash = (window.location.hash || '').replace(/^#/, '');
+        var match = hash.match(/^diagnosis\/([a-z0-9_-]+)/i);
+        return match ? match[1].toLowerCase() : null;
+      }
+
+      function buildAppDeepLink(slug) {
+        return APP_SCHEME + '://diagnosis/' + slug;
+      }
+
+      function isIos() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      }
+
+      function isAndroid() {
+        return /Android/.test(navigator.userAgent);
+      }
+
+      var slug = getSlugFromUrl();
+      var subtitleEl = document.getElementById('subtitle');
+      var openAppBtn = document.getElementById('openAppBtn');
+      var dividerEl = document.getElementById('divider');
+      var storeSection = document.getElementById('storeSection');
+      var iosLink = document.getElementById('iosLink');
+      var androidLink = document.getElementById('androidLink');
+
+      if (!slug) {
+        subtitleEl.textContent = 'Use a link like this page#diagnosis/diabetes to open a specific diagnosis.';
+        openAppBtn.classList.add('hidden');
+        storeSection.classList.remove('hidden');
+        dividerEl.classList.remove('hidden');
+        iosLink.href = APP_STORE_URL;
+        androidLink.href = PLAY_STORE_URL;
+        if (isIos()) androidLink.style.display = 'none';
+        if (isAndroid()) iosLink.style.display = 'none';
+        return;
+      }
+
+      var deepLink = buildAppDeepLink(slug);
+      openAppBtn.href = deepLink;
+      openAppBtn.textContent = 'Open "' + slug + '" in app';
+
+      var showStores = function() {
+        subtitleEl.textContent = "If the app didn't open, download it below:";
+        dividerEl.classList.remove('hidden');
+        storeSection.classList.remove('hidden');
+        iosLink.href = APP_STORE_URL;
+        androidLink.href = PLAY_STORE_URL;
+        if (isIos()) androidLink.style.display = 'none';
+        if (isAndroid()) iosLink.style.display = 'none';
+      };
+
+      openAppBtn.addEventListener('click', function() {
+        window.location.href = deepLink;
+        setTimeout(showStores, DELAY_MS);
+      });
+
+      window.location.href = deepLink;
+      setTimeout(showStores, DELAY_MS);
+    })();
+  </script>
+</body>
+</html>
